@@ -3,6 +3,7 @@ package ru.stqa.pft.addressbook;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -16,21 +17,15 @@ public class CreateGroupTests {
     public void setUp(){
     wd = new FirefoxDriver();
     wd.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+    login();
 
   }
 
 @Test
-    public void  createGroup() {
+    public void  testGroupCreation() {
 
 
-        wd.get("http://localhost/addressbook/");
-        wd.findElement(By.name("pass")).click();
-        wd.findElement(By.name("pass")).clear();
-        wd.findElement(By.name("pass")).sendKeys("secret");
-        wd.findElement(By.name("user")).click();
-        wd.findElement(By.name("user")).clear();
-        wd.findElement(By.name("user")).sendKeys("admin");
-        wd.findElement(By.xpath("//form[@id='LoginForm']/input[3]")).click();
+
         wd.findElement(By.linkText("groups")).click();
         wd.findElement(By.xpath("//div[@id='content']/form/input[4]")).click();
         wd.findElement(By.name("group_name")).click();
@@ -46,7 +41,25 @@ public class CreateGroupTests {
         wd.findElement(By.linkText("group page")).click();
         wd.quit();
     }
-    
+
+   private void login(){
+
+     wd.get("http://localhost/addressbook/");
+     wd.findElement(By.name("pass")).click();
+     wd.findElement(By.name("pass")).clear();
+     wd.findElement(By.name("pass")).sendKeys("secret");
+     wd.findElement(By.name("user")).click();
+     wd.findElement(By.name("user")).clear();
+     wd.findElement(By.name("user")).sendKeys("admin");
+     wd.findElement(By.xpath("//form[@id='LoginForm']/input[3]")).click();
+
+   }
+
+  @AfterMethod
+
+   public void tearDown(){
+    wd.quit();
+  }
     public static boolean isAlertPresent(FirefoxDriver wd) {
         try {
             wd.switchTo().alert();
