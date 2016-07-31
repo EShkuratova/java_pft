@@ -15,6 +15,7 @@ public class PointTests {
     point.setY(9);
     Assert.assertEquals(point.getDistance(),5.0,"Расстояние вычислено неверно");
 
+
   }
 
   @Test
