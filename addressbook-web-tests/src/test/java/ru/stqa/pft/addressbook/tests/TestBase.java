@@ -11,16 +11,20 @@ public class TestBase {
 
   protected final ApplicationManager app = new ApplicationManager();
 
+
   @BeforeMethod
   public void setUp() {
     app.init();
 
   }
 
+
+
   @AfterMethod
 
   public void tearDown() {
     app.stop();
   }
+
 
 }
