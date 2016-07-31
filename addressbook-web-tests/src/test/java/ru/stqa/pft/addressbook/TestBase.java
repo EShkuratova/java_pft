@@ -5,13 +5,23 @@ import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 import java.util.concurrent.TimeUnit;
 
-public class CreateGroupTests {
-
+/**
+ * Created by eshkuratova on 31.07.2016.
+ */
+public class TestBase {
   FirefoxDriver wd;
+
+  public static boolean isAlertPresent(FirefoxDriver wd) {
+    try {
+      wd.switchTo().alert();
+      return true;
+    } catch (NoAlertPresentException e) {
+      return false;
+    }
+  }
 
   @BeforeMethod
   public void setUp() {
@@ -21,26 +31,15 @@ public class CreateGroupTests {
 
   }
 
-  @Test
-  public void testGroupCreation() {
-
-    goToGroupPage();
-    initGroupCreation();
-    fillGroupForm(new GroupData("test1", "test2", "test3"));
-    submitGroupCreation();
-    returnToGroupPage();
-    wd.quit();
-  }
-
-  private void returnToGroupPage() {
+  protected void returnToGroupPage() {
     wd.findElement(By.linkText("group page")).click();
   }
 
-  private void submitGroupCreation() {
+  protected void submitGroupCreation() {
     wd.findElement(By.name("submit")).click();
   }
 
-  private void fillGroupForm(GroupData groupData) {
+  protected void fillGroupForm(GroupData groupData) {
     wd.findElement(By.name("group_name")).click();
     wd.findElement(By.name("group_name")).clear();
     wd.findElement(By.name("group_name")).sendKeys(groupData.getName());
@@ -52,11 +51,11 @@ public class CreateGroupTests {
     wd.findElement(By.name("group_footer")).sendKeys(groupData.getFooter());
   }
 
-  private void initGroupCreation() {
+  protected void initGroupCreation() {
     wd.findElement(By.xpath("//div[@id='content']/form/input[4]")).click();
   }
 
-  private void goToGroupPage() {
+  protected void goToGroupPage() {
     wd.findElement(By.linkText("groups")).click();
   }
 
@@ -79,12 +78,14 @@ public class CreateGroupTests {
     wd.quit();
   }
 
-  public static boolean isAlertPresent(FirefoxDriver wd) {
-    try {
-      wd.switchTo().alert();
-      return true;
-    } catch (NoAlertPresentException e) {
-      return false;
-    }
+  protected void deleteSelectedGroups() {
+      wd.findElement(By.name("delete")).click();
+
+  }
+
+  protected void selectGroup() {
+      if (!wd.findElement(By.name("selected[]")).isSelected()) {
+          wd.findElement(By.name("selected[]")).click();
+      }
   }
 }
