@@ -27,7 +27,7 @@ public class HelperBase {
   return wd.findElement(locator).isSelected();
 
   }
-  public  boolean isAlertPresent() {
+  private  boolean isAlertPresent() {
     try {
       wd.switchTo().alert();
       return true;
@@ -35,4 +35,12 @@ public class HelperBase {
       return false;
     }
   }
+  protected void alertAccept(){
+    if(isAlertPresent()){
+    wd.switchTo().alert().accept();}
+  }
+  protected void alertReject(){
+    if(isAlertPresent()){
+    wd.switchTo().alert().dismiss();
+  }}
 }

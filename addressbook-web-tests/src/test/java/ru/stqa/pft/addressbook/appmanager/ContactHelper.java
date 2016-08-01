@@ -41,4 +41,41 @@ public class ContactHelper extends HelperBase {
     type(By.name("email"),contactData.getEmail());
 
   }
+
+  public void selectContact() {
+    //if (!wd.findElement(By.name("selected[]")).isSelected()) {
+      click(By.name("selected[]"));
+   // }
+  }
+
+  public void deleteSelectedContacts() {
+    click(By.xpath("//div[@id='content']/form[2]/div[2]/input"));
+  }
+  public void submitContactsDeletion(){
+    alertAccept();
+  }
+
+  public void initContactModificationByButton() {
+    click(By.xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img"));
+  }
+
+  public void submitContactModification() {
+    click(By.name("update"));
+  }
+
+  public void initContactModificationFromDetails() {
+    click(By.name("modifiy"));
+  }
+
+  public void getContactDetails() {
+    click(By.xpath("//table[@id='maintable']/tbody/tr[2]/td[7]/a/img"));
+  }
+
+  public void checkAllRows() {
+    click(By.id("MassCB"));
+  }
+
+  public void addNextContact() {
+    click(By.linkText("add next"));
+  }
 }
