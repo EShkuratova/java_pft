@@ -2,6 +2,8 @@ package ru.stqa.pft.addressbook.appmanager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
 
 /**
@@ -30,7 +32,7 @@ public class ContactHelper extends HelperBase {
       }
   }
 
-  public void fillContactInfo(ContactData contactData) {
+  public void fillContactInfo(ContactData contactData,boolean creation) {
     type(By.name("firstname"),contactData.getFirstname());
     type(By.name("lastname"),contactData.getLastname());
     type(By.name("nickname"),contactData.getNickname());
@@ -39,13 +41,9 @@ public class ContactHelper extends HelperBase {
     type(By.name("mobile"),contactData.getMobilePhone());
     type(By.name("work"),contactData.getWorkPhone());
     type(By.name("email"),contactData.getEmail());
+    if(creation) new Select(wd.findElement(By.name("new_group"))).selectByVisibleText("test1");
+    else Assert.assertFalse(isElementPresent(By.name("new_group")),"На форме редактирования доступен элемент для выбора группы!");
 
-  }
-
-  public void selectContact() {
-    //if (!wd.findElement(By.name("selected[]")).isSelected()) {
-      click(By.name("selected[]"));
-   // }
   }
 
   public void deleteSelectedContacts() {
@@ -77,5 +75,9 @@ public class ContactHelper extends HelperBase {
 
   public void addNextContact() {
     click(By.linkText("add next"));
+  }
+
+  public void selectContact() {
+    click(By.name("selected[]"));
   }
 }

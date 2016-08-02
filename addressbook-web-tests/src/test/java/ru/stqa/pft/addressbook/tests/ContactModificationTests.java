@@ -13,11 +13,11 @@ public class ContactModificationTests extends TestBase {
   public void testContactModification(){
     app.getNavigationHelper().goToHomePage();
     app.getContactHelper().initContactModificationByButton();
-    app.getContactHelper().fillContactInfo(new ContactData("user2", "user2", "user2", "mts", "Санкт-Петербург, Учебный переулок", "+79111111111", "+79112222222", "update@gmail.com"));
+    app.getContactHelper().fillContactInfo(new ContactData("user2", "user2", "user2", "mts", "Санкт-Петербург, Учебный переулок", "+79111111111", "+79112222222", "update@gmail.com","1"),false);
     app.getContactHelper().submitContactModification();
     app.getContactHelper().getContactDetails();
     app.getContactHelper().initContactModificationFromDetails();
-    app.getContactHelper().fillContactInfo(new ContactData("user2", "user2", "user2", "mts", "Санкт-Петербург, Учебный переулок", "+79111111111", "+79112222222", "update1@gmail.com"));
+    app.getContactHelper().fillContactInfo(new ContactData("user2", "user2", "user2", "mts", "Санкт-Петербург, Учебный переулок", "+79111111111", "+79112222222", "update1@gmail.com", null),false);
     app.getContactHelper().submitContactModification();
   }
 

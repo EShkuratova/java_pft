@@ -38,7 +38,7 @@ public class ApplicationManager {
       wd=new ChromeDriver(options);}
     else if(Objects.equals(browser, BrowserType.IE)){wd=new InternetExplorerDriver();}
 
-    wd.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+    wd.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
     groupHelper = new GroupHelper(wd);
     navigationHelper=new NavigationHelper(wd);
     sessionHelper=new SessionHelper(wd);
