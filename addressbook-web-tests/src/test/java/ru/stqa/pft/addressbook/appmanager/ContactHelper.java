@@ -80,4 +80,19 @@ public class ContactHelper extends HelperBase {
   public void selectContact() {
     click(By.name("selected[]"));
   }
+
+  public void createContact(ContactData contactData){
+
+  fillContactInfo(contactData,true);
+  fillBirthday();
+  submitContactCreation();
+  }
+
+  public boolean isAnyContactExist() {
+
+    return isElementPresent(By.name("selected[]"));
+  }
+
+
+
 }
