@@ -30,6 +30,7 @@ public class GroupDeletionTests extends TestBase {
             Assert.assertEquals(before.get(i),after.get(i));
            // Assert.assertTrue(after.equals(before),"Количество групп не изменилось");
         }*/
+
         Assert.assertEquals(after,before);
     }
 

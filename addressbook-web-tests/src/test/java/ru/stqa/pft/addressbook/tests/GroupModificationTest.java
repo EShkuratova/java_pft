@@ -5,7 +5,6 @@ import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.GroupData;
 
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -39,7 +38,7 @@ public class GroupModificationTest extends TestBase{
     after.sort(byId);
     Assert.assertEquals(before,after);
     Assert.assertTrue(before.size() == after.size(), "После редактирования изменилось кол-во групп");
-    Assert.assertEquals(new HashSet<Object>(before),new HashSet<Object>(after));
+   // Assert.assertEquals(new HashSet<Object>(before),new HashSet<Object>(after));
 
   }
 }
