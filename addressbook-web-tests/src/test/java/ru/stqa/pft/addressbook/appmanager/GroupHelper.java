@@ -55,7 +55,7 @@ public class GroupHelper extends HelperBase {
   }
 
 
-  public void createGroup(GroupData groupData) {
+  public void create(GroupData groupData) {
     initGroupCreation();
     fillGroupForm(groupData);
     submitGroupCreation();
@@ -63,7 +63,7 @@ public class GroupHelper extends HelperBase {
   }
 
 
-  public boolean isGroupExists() {
+  public boolean isExists() {
     return isElementPresent(By.name("selected[]"));
   }
 
@@ -72,7 +72,7 @@ public class GroupHelper extends HelperBase {
     return count;
   }
 
-  public List<GroupData> getGroupList() {
+  public List<GroupData> list() {
     List<GroupData> groups = new ArrayList<GroupData>();
     List<WebElement> elements = wd.findElements(By.cssSelector("span.group")); //все элементы, у которых тэг span и класс group
     for(WebElement elem: elements){
@@ -82,5 +82,17 @@ public class GroupHelper extends HelperBase {
       groups.add(group);
     }
     return groups;
+  }
+  public void modify(int index, GroupData group) {
+   selectGroup(index);
+    initGroupModification();
+    fillGroupForm(group);
+    submitGroupModification();
+    returnToGroupPage();
+  }
+  public void delete(int index) {
+    selectGroup(index);
+    deleteSelectedGroups();
+    returnToGroupPage();
   }
 }

@@ -12,14 +12,14 @@ import java.util.List;
  */
 public class ContactModificationTests extends TestBase {
 
-  @Test
+  @Test(enabled = false)
 
   public void testContactModification(){
-    app.getNavigationHelper().goToHomePage();
+    app.goTo().goToHomePage();
     makeSureContactExist();
+    ContactData contact = new ContactData("user2", "user2", "user2", "mts", "Санкт-Петербург, Учебный переулок", "+79111111111", "+79112222222", "update@gmail.com","1");
     List<ContactData> before = app.getContactHelper().getContactList();
     app.getContactHelper().initContactModificationByButton(before.size()+1);
-    ContactData contact = new ContactData("user2", "user2", "user2", "mts", "Санкт-Петербург, Учебный переулок", "+79111111111", "+79112222222", "update@gmail.com","1");
     app.getContactHelper().fillContactInfo(contact,false);
     app.getContactHelper().submitContactModification();
     List<ContactData> after = app.getContactHelper().getContactList();
@@ -42,9 +42,9 @@ public class ContactModificationTests extends TestBase {
  }
   public void makeSureContactExist() {
     if(!app.getContactHelper().isAnyContactExist()){
-      app.getNavigationHelper().goToNewContactPage();
+      app.goTo().goToNewContactPage();
       app.getContactHelper().createContact(new ContactData("user2", "user2", "user2", "mts", "Санкт-Петербург, Учебный переулок", "+79111111111", "+79112222222", "user1@gmail.com","test1"));
-      app.getNavigationHelper().goToHomePage();
+      app.goTo().goToHomePage();
     }
   }
 

@@ -9,18 +9,19 @@ import java.util.List;
 /**
  * Created by eshkuratova on 01.08.2016.
  */
+
 public class ContactDeletionTests extends TestBase {
 
-  @Test
+  @Test(enabled = false)
   public void testContactDeletion() {
 
-    app.getNavigationHelper().goToHomePage();
+    app.goTo().goToHomePage();
     makeSureContactExist();
     List<ContactData> before = app.getContactHelper().getContactList();
     app.getContactHelper().selectContact(before.size()-1);
     app.getContactHelper().deleteSelectedContacts();
     app.getContactHelper().submitContactsDeletion();
-    app.getNavigationHelper().goToHomePage();
+    app.goTo().goToHomePage();
     List<ContactData> after = app.getContactHelper().getContactList();
     before.remove(before.size()-1);
     Assert.assertEquals(after.size(),before.size());
@@ -30,9 +31,9 @@ public class ContactDeletionTests extends TestBase {
 
 
 
-  @Test
+  @Test(enabled = false)
   public void testContactDeletionAll() {
-    app.getNavigationHelper().goToHomePage();
+    app.goTo().goToHomePage();
     makeSureContactExist();
     app.getContactHelper().checkAllRows();
     app.getContactHelper().deleteSelectedContacts();
@@ -44,9 +45,9 @@ public class ContactDeletionTests extends TestBase {
 
   public void makeSureContactExist() {
     if(!app.getContactHelper().isAnyContactExist()){
-      app.getNavigationHelper().goToNewContactPage();
+      app.goTo().goToNewContactPage();
       app.getContactHelper().createContact(new ContactData("user2", "user2", "user2", "mts", "Санкт-Петербург, Учебный переулок", "+79111111111", "+79112222222", "user1@gmail.com","test1"));
-      app.getNavigationHelper().goToHomePage();
+      app.goTo().goToHomePage();
     }
   }
 }
