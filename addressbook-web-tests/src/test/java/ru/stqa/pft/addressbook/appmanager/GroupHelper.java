@@ -5,8 +5,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import ru.stqa.pft.addressbook.model.GroupData;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by eshkuratova on 31.07.2016.
@@ -46,6 +47,10 @@ public class GroupHelper extends HelperBase {
 
     }
 
+    private void selectGroupById(int id) {
+        wd.findElement(By.cssSelector("input[value ='"+id+"']")).click();
+    }
+
     public void initGroupModification() {
         click(By.name("edit"));
     }
@@ -72,8 +77,8 @@ public class GroupHelper extends HelperBase {
         return count;
     }
 
-    public List<GroupData> list() {
-        List<GroupData> groups = new ArrayList<GroupData>();
+    public Set<GroupData> all() {
+        Set<GroupData> groups = new HashSet<>();
         List<WebElement> elements = wd.findElements(By.cssSelector("span.group")); //все элементы, у которых тэг span и класс group
         for (WebElement elem : elements) {
             String name = elem.getText();
@@ -84,8 +89,8 @@ public class GroupHelper extends HelperBase {
         return groups;
     }
 
-    public void modify(int index, GroupData group) {
-        selectGroup(index);
+    public void modify( GroupData group) {
+        selectGroupById(group.getId());
         initGroupModification();
         fillGroupForm(group);
         submitGroupModification();
@@ -97,4 +102,12 @@ public class GroupHelper extends HelperBase {
         deleteSelectedGroups();
         returnToGroupPage();
     }
+
+    public void delete(GroupData group) {
+        selectGroupById(group.getId());
+        deleteSelectedGroups();
+        returnToGroupPage();
+    }
+
+
 }
