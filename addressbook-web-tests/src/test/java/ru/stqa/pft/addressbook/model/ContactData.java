@@ -1,107 +1,161 @@
 package ru.stqa.pft.addressbook.model;
 
 public class ContactData {
-  int id;
-  private final String firstname;
-  private final String lastname;
-  private  String nickname;
-  private  String company;
-  private  String address;
-  private  String mobilePhone;
-  private  String workPhone;
-  private  String email;
-  private String group;
+    int id;
 
-  public ContactData(String firstname, String lastname, String nickname, String company, String address, String mobilePhone, String workPhone, String email,String group) {
-    this.firstname = firstname;
-    this.lastname = lastname;
-    this.nickname = nickname;
-    this.company = company;
-    this.address = address;
-    this.mobilePhone = mobilePhone;
-    this.workPhone = workPhone;
-    this.email = email;
-    this.group = group;
-  }
+    public ContactData withFirstname(String firstname) {
+        this.firstname = firstname;
+        return this;
+    }
 
-  public int getId() {
-    return id;
-  }
+    public ContactData withLastname(String lastname) {
+        this.lastname = lastname;
+        return this;
+    }
 
-  @Override
-  public String toString() {
-    return "ContactData{" +
-            "id=" + id +
-            ", lastname='" + lastname + '\'' +
-            ", company='" + company + '\'' +
-            ", group='" + group + '\'' +
-            ", firstname='" + firstname + '\'' +
-            '}';
-  }
+    public ContactData withNickname(String nickname) {
+        this.nickname = nickname;
+        return this;
+    }
 
-  public void setId(int id) {
-    this.id = id;
-  }
+    public ContactData withCompany(String company) {
+        this.company = company;
+        return this;
+    }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    public ContactData withAddress(String address) {
+        this.address = address;
+        return this;
+    }
 
-    ContactData that = (ContactData) o;
+    public ContactData withMobilePhone(String mobilePhone) {
+        this.mobilePhone = mobilePhone;
+        return this;
+    }
 
-    if (firstname != null ? !firstname.equals(that.firstname) : that.firstname != null) return false;
-    return lastname != null ? lastname.equals(that.lastname) : that.lastname == null;
+    public ContactData withWorkPhone(String workPhone) {
+        this.workPhone = workPhone;
+        return this;
+    }
 
-  }
+    public ContactData withEmail(String email) {
+        this.email = email;
+        return this;
+    }
 
-  @Override
-  public int hashCode() {
-    int result = firstname != null ? firstname.hashCode() : 0;
-    result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
-    return result;
-  }
+    public ContactData withGroup(String group) {
+        this.group = group;
+        return this;
+    }
 
-  public ContactData(int id, String firstname, String lastname) {
-    this.id = id;
+    private String firstname;
+    private String lastname;
+    private String nickname;
+    private String company;
+    private String address;
+    private String mobilePhone;
+    private String workPhone;
+    private String email;
+    private String group;
 
-    this.firstname = firstname;
-    this.lastname = lastname;
-  }
+    public ContactData(String firstname, String lastname, String nickname, String company, String address, String mobilePhone, String workPhone, String email, String group) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.nickname = nickname;
+        this.company = company;
+        this.address = address;
+        this.mobilePhone = mobilePhone;
+        this.workPhone = workPhone;
+        this.email = email;
+        this.group = group;
+    }
 
-  public String getFirstname() {
-    return firstname;
-  }
+    public ContactData() {
+    }
 
-  public String getLastname() {
-    return lastname;
-  }
+    ;
 
-  public String getNickname() {
-    return nickname;
-  }
+    public int getId() {
+        return id;
+    }
 
-  public String getCompany() {
-    return company;
-  }
+    @Override
+    public String toString() {
+        return "ContactData{" +
+                "id=" + id +
+                ", lastname='" + lastname + '\'' +
+                ", company='" + company + '\'' +
+                ", group='" + group + '\'' +
+                ", firstname='" + firstname + '\'' +
+                '}';
+    }
 
-  public String getAddress() {
-    return address;
-  }
+    public ContactData withId(int id) {
+        this.id = id;
+        return this;
+    }
 
-  public String getMobilePhone() {
-    return mobilePhone;
-  }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-  public String getWorkPhone() {
-    return workPhone;
-  }
+        ContactData data = (ContactData) o;
 
-  public String getEmail() {
-    return email;
-  }
+        if (id != data.id) return false;
+        if (firstname != null ? !firstname.equals(data.firstname) : data.firstname != null) return false;
+        return lastname != null ? lastname.equals(data.lastname) : data.lastname == null;
 
-  public String getGroup() {
-    return group;
-  }
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
+        result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
+        return result;
+    }
+
+    /*public ContactData(int id, String firstname, String lastname) {
+          this.id = id;
+
+          this.firstname = firstname;
+          this.lastname = lastname;
+        }
+      */
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getMobilePhone() {
+        return mobilePhone;
+    }
+
+    public String getWorkPhone() {
+        return workPhone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getGroup() {
+        return group;
+    }
 }

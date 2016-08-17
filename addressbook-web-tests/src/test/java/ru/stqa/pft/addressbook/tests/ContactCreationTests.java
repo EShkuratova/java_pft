@@ -1,43 +1,33 @@
 package ru.stqa.pft.addressbook.tests;
 
-import org.testng.Assert;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
 
-import java.util.Comparator;
-import java.util.List;
+import java.util.HashSet;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 
 public class ContactCreationTests extends TestBase {
 
 
-  @Test(enabled = false)
-  public void testCreateContact() {
-    app.goTo().goToHomePage();
-    List<ContactData> before = app.getContactHelper().getContactList();
-    app.goTo().goToNewContactPage();
-    ContactData contact1 = new ContactData("user2", "user2", "user2", "mts", "Санкт-Петербург, Учебный переулок", "+79111111111", "+79112222222", "user1@gmail.com","test1");
-    ContactData contact2 = new ContactData("user3", "user3", "user2", "mts", "Санкт-Петербург, Учебный переулок", "+79111111111", "+79112222222", "user1@gmail.com","test1");
-    app.getContactHelper().fillContactInfo(contact1,true);
-    app.getContactHelper().fillBirthday();
-    app.getContactHelper().submitContactCreation();
-    app.getContactHelper().addNextContact();
-    app.getContactHelper().fillContactInfo(contact2,true);
-    app.getContactHelper().fillBirthday();
-    app.getContactHelper().submitContactCreation();
-    List<ContactData> after = app.getContactHelper().getContactList();
+    @Test
+    public void testCreateContact() {
+        app.goTo().homePage();
+        HashSet<ContactData> before = app.contact().all();
+        app.goTo().newContactPage();
+        ContactData contact1 = new ContactData().withFirstname("ttttt").withLastname("user2").withNickname("user2")
+                .withCompany("mts").withAddress("Санкт-Петербург, Учебный переулок").withMobilePhone( "+79111111111")
+                .withWorkPhone("+79112222222").withEmail("user1@gmail.com").withGroup("test1");
+        app.contact().create(contact1);
+        HashSet<ContactData> after = app.contact().all();
+        contact1.withId(after.stream().max((o1, o2) -> Integer.compare(o1.getId(), o2.getId())).get().getId());
+        before.add(contact1);
+        assertThat(after.size(), equalTo(before.size()));
+        assertThat(after, equalTo(before));
 
-    Comparator<? super ContactData> byId = (o1,o2) -> Integer.compare(o1.getId(),o2.getId());
-    contact1.setId(after.stream().max(byId).get().getId()-1);
-    contact2.setId(after.stream().max(byId).get().getId());
-    before.add(contact1);
-    before.add(contact2);
-    Assert.assertEquals(after.size(),before.size());
-    after.sort(byId);
-    before.sort(byId);
-    Assert.assertEquals(after,before);
-
-  }
+    }
 
 
 }

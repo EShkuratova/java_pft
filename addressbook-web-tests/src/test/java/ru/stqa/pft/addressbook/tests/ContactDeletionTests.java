@@ -1,10 +1,14 @@
 package ru.stqa.pft.addressbook.tests;
 
 import org.testng.Assert;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
 
-import java.util.List;
+import java.util.HashSet;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * Created by eshkuratova on 01.08.2016.
@@ -12,42 +16,44 @@ import java.util.List;
 
 public class ContactDeletionTests extends TestBase {
 
-  @Test(enabled = false)
-  public void testContactDeletion() {
+    @BeforeTest
+    public void makeSureContactExist() {
+        if (app.contact().all().isEmpty()) {
+            app.goTo().newContactPage();
+            app.contact().create(new ContactData().withFirstname("user2").withLastname("user2").withNickname("user2")
+                    .withCompany("mts").withAddress("Санкт-Петербург, Учебный переулок").withMobilePhone("+79111111111").withWorkPhone("+79112222222").withEmail("user1@gmail.com").withGroup("test1"));
 
-    app.goTo().goToHomePage();
-    makeSureContactExist();
-    List<ContactData> before = app.getContactHelper().getContactList();
-    app.getContactHelper().selectContact(before.size()-1);
-    app.getContactHelper().deleteSelectedContacts();
-    app.getContactHelper().submitContactsDeletion();
-    app.goTo().goToHomePage();
-    List<ContactData> after = app.getContactHelper().getContactList();
-    before.remove(before.size()-1);
-    Assert.assertEquals(after.size(),before.size());
-    Assert.assertEquals(after,before);
-
-  }
-
-
-
-  @Test(enabled = false)
-  public void testContactDeletionAll() {
-    app.goTo().goToHomePage();
-    makeSureContactExist();
-    app.getContactHelper().checkAllRows();
-    app.getContactHelper().deleteSelectedContacts();
-    app.getContactHelper().submitContactsDeletion();
-    app.getContactHelper().submitContactsDeletion();
-    List<ContactData> after = app.getContactHelper().getContactList();
-    Assert.assertTrue(after.isEmpty());
-  }
-
-  public void makeSureContactExist() {
-    if(!app.getContactHelper().isAnyContactExist()){
-      app.goTo().goToNewContactPage();
-      app.getContactHelper().createContact(new ContactData("user2", "user2", "user2", "mts", "Санкт-Петербург, Учебный переулок", "+79111111111", "+79112222222", "user1@gmail.com","test1"));
-      app.goTo().goToHomePage();
+        }
+        app.goTo().homePage();
     }
-  }
+
+    @Test
+    public void testContactDeletion() {
+
+        app.goTo().homePage();
+        HashSet<ContactData> before = app.contact().all();
+        ContactData deletedContact = before.iterator().next();
+        app.contact().delete(deletedContact);
+        HashSet<ContactData> after = app.contact().all();
+        System.out.println(after);
+        before.remove(deletedContact);
+        assertThat(after.size(), equalTo(before.size()));
+        assertThat(after,equalTo(before));
+
+
+    }
+
+
+
+
+    @Test(enabled = false)
+    public void testContactDeletionAll() {
+        app.goTo().homePage();
+        app.contact().deleteAll();
+        HashSet<ContactData> after = app.contact().all();
+        Assert.assertTrue(after.isEmpty());
+    }
+
+
+
 }

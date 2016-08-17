@@ -1,52 +1,58 @@
 package ru.stqa.pft.addressbook.tests;
 
 import org.testng.Assert;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
 
-import java.util.Comparator;
-import java.util.List;
+import java.util.HashSet;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * Created by eshkuratova on 01.08.2016.
  */
 public class ContactModificationTests extends TestBase {
-
-    @Test(enabled = false)
-
-    public void testContactModification() {
-        app.goTo().goToHomePage();
-        makeSureContactExist();
-        ContactData contact = new ContactData("user2", "user2", "user2", "mts", "Санкт-Петербург, Учебный переулок", "+79111111111", "+79112222222", "update@gmail.com", "1");
-        List<ContactData> before = app.getContactHelper().getContactList();
-        app.getContactHelper().initContactModificationByButton(before.size() + 1);
-        app.getContactHelper().fillContactInfo(contact, false);
-        app.getContactHelper().submitContactModification();
-        List<ContactData> after = app.getContactHelper().getContactList();
-        before.remove(before.size() - 1);
-        before.add(contact);
-        Comparator<? super ContactData> byId = (c1, c2) -> Integer.compare(c1.getId(), c2.getId());
-        after.sort(byId);
-        before.sort(byId);
-        Assert.assertEquals(after, before);
-        before = app.getContactHelper().getContactList();
-        app.getContactHelper().getContactDetails(before.size() + 1);
-        app.getContactHelper().initContactModificationFromDetails();
-        app.getContactHelper().fillContactInfo(new ContactData("user2", "user2", "user2", "mts", "Санкт-Петербург, Учебный переулок", "+79111111111", "+79112222222", "update1@gmail.com", null), false);
-        app.getContactHelper().submitContactModification();
-        after = app.getContactHelper().getContactList();
-        after.sort(byId);
-        before.sort(byId);
-        Assert.assertEquals(after, before);
-
-    }
-
+  @BeforeTest
     public void makeSureContactExist() {
-        if (!app.getContactHelper().isAnyContactExist()) {
-            app.goTo().goToNewContactPage();
-            app.getContactHelper().createContact(new ContactData("user2", "user2", "user2", "mts", "Санкт-Петербург, Учебный переулок", "+79111111111", "+79112222222", "user1@gmail.com", "test1"));
-            app.goTo().goToHomePage();
+      app.goTo().homePage();
+        if (app.contact().all().isEmpty()) {
+            app.goTo().newContactPage();
+            app.contact().create(new ContactData().withFirstname("user2").withLastname("user2").withNickname("user2")
+                    .withCompany("mts").withAddress("Санкт-Петербург, Учебный переулок").withMobilePhone("+79111111111")
+                    .withEmail( "user1@gmail.com"));
+            app.goTo().homePage();
         }
     }
+
+    @Test
+
+    public void testContactModification() {
+        app.goTo().homePage();
+
+        HashSet<ContactData> before = app.contact().all();
+        ContactData modifiedContact =before.iterator().next();
+        ContactData contact = new ContactData().withId(modifiedContact.getId()).withFirstname("user2").withLastname("user2")
+                .withNickname("user2").withCompany("mts").withAddress("Санкт-Петербург, Учебный переулок").withEmail("update@gmail.com");
+        app.contact().modify(contact);
+        HashSet<ContactData> after = app.contact().all();
+        before.remove(modifiedContact);
+        before.add(contact);
+        //Comparator<? super ContactData> byId = (c1, c2) -> Integer.compare(c1.getId(), c2.getId());
+        assertThat(after.size(), equalTo(before.size()));
+        assertThat(after, equalTo(before));
+        Assert.assertEquals(after, before);
+        before = app.contact().all();
+        /*app.contact().details(contact);
+        app.contact().modifyFromDetails(contact);
+        after = app.contact().all();
+        assertThat(after.size(), equalTo(before.size()));
+        assertThat(after, equalTo(before));
+*/
+    }
+
+
+
 
 }
