@@ -36,6 +36,7 @@ public class GroupHelper extends HelperBase {
     }
 
     public void deleteSelectedGroups() {
+        groupsCache = null;
         click(By.name("delete"));
 
     }
@@ -64,6 +65,7 @@ public class GroupHelper extends HelperBase {
         fillGroupForm(groupData);
         submitGroupCreation();
         returnToGroupPage();
+        groupsCache = null;
     }
 
 
@@ -71,21 +73,26 @@ public class GroupHelper extends HelperBase {
         return isElementPresent(By.name("selected[]"));
     }
 
-    public int getGroupCount() {
+    public int count() {
         int count = wd.findElements(By.name("selected[]")).size();
         return count;
     }
 
+    private  Groups groupsCache = null;
+
     public Groups all() {
-        Groups groups = new Groups();
+        if(groupsCache!=null){
+            return new Groups(groupsCache);
+        }
+        groupsCache = new Groups();
         List<WebElement> elements = wd.findElements(By.cssSelector("span.group")); //все элементы, у которых тэг span и класс group
         for (WebElement elem : elements) {
             String name = elem.getText();
             int id = Integer.parseInt(elem.findElement(By.tagName("input")).getAttribute("value"));
             GroupData group = new GroupData().withId(id).withName(name);
-            groups.add(group);
+            groupsCache.add(group);
         }
-        return groups;
+        return new Groups(groupsCache);
     }
 
     public void modify( GroupData group) {
@@ -94,18 +101,21 @@ public class GroupHelper extends HelperBase {
         fillGroupForm(group);
         submitGroupModification();
         returnToGroupPage();
+        groupsCache = null;
     }
 
     public void delete(int index) {
         selectGroup(index);
         deleteSelectedGroups();
         returnToGroupPage();
+        groupsCache = null;
     }
 
     public void delete(GroupData group) {
         selectGroupById(group.getId());
         deleteSelectedGroups();
         returnToGroupPage();
+        groupsCache = null;
     }
 
 

@@ -9,6 +9,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class GroupDeletionTests extends TestBase {
+
     @BeforeMethod
 
     public void ensurePreconditions() {
@@ -22,18 +23,12 @@ public class GroupDeletionTests extends TestBase {
     @Test
     public void testGroupDeletion() {
 
-        //int before=app.group().getGroupCount();
-        //Set<GroupData> before;
+
         Groups before = app.group().all();
-        GroupData deletedGroup = (GroupData) before.iterator().next();
+        GroupData deletedGroup =  before.iterator().next();
         app.group().delete(deletedGroup);
-       // Set<GroupData> after;
+        assertThat(app.group().count(), equalTo(before.size()-1));
         Groups after = app.group().all();
-        assertThat(after.size(), equalTo(before.size()-1));
-       /* for(int i =0;i<after.size();i++){
-            Assert.assertEquals(before.get(i),after.get(i));
-           // Assert.assertTrue(after.equals(before),"Количество групп не изменилось");
-        }*/
         assertThat(after,equalTo(before.without(deletedGroup)));
 
     }

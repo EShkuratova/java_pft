@@ -1,6 +1,5 @@
 package ru.stqa.pft.addressbook.tests;
 
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.GroupData;
@@ -27,13 +26,11 @@ public class GroupModificationTest extends TestBase {
     public void testGroupModification() {
 
         Groups before = app.group().all();
-        GroupData modifiedGroup = (GroupData) before.iterator().next();
-        //System.out.println("<<<" +before.iterator().next().getClass());
+        GroupData modifiedGroup =  before.iterator().next();
         GroupData group = new GroupData().withId(modifiedGroup.getId()).withName("groupupdate1").withHeader("groupupdate2").withFooter("groupupdate3");
         app.group().modify(group);
+        assertThat(app.group().count(), equalTo(before.size()));
         Groups after = app.group().all();
-        Assert.assertTrue(before.size() == after.size(), "После редактирования изменилось кол-во групп");
-        assertThat(after.size(), equalTo(before.size()));
         assertThat(after, equalTo(before.without(modifiedGroup).withAdded(group)));
 
     }
