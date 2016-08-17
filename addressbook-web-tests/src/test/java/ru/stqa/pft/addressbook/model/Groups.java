@@ -8,7 +8,7 @@ import java.util.Set;
 /**
  * Created by eshkuratova on 16.08.2016.
  */
-public class Groups extends ForwardingSet {
+public class Groups extends ForwardingSet<GroupData> {
     private Set<GroupData> delegate;
 
     public Groups(Groups groups) {
