@@ -158,6 +158,16 @@ public class ContactHelper extends HelperBase {
                          .withLastname(lastname).withHomePhone(homePhone).withEmail(email).withEmail2(email2).withEmail3(email3).withAddress(address);
 
      }
+
+    public ContactData infoFromDetailForm(ContactData contact){
+
+        details(contact);
+        String fullInfo = wd.findElement(By.cssSelector("#content")).getText();
+        System.out.println(fullInfo);
+        return
+                new ContactData().withFullInfo(fullInfo);
+
+    }
     public boolean isAnyContactExist() {
 
         return isElementPresent(By.name("selected[]"));

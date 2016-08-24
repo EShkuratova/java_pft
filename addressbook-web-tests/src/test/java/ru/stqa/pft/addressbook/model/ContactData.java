@@ -15,6 +15,31 @@ public class ContactData {
     private String group;
     private String email2;
     private String email3;
+    private String fullInfo;
+
+    @Override
+    public String toString() {
+        return "ContactData{" +
+                "id=" + id +
+                ", allPhones='" + allPhones + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", company='" + company + '\'' +
+                ", address='" + address + '\'' +
+                ", mobilePhone='" + mobilePhone + '\'' +
+                ", workPhone='" + workPhone + '\'' +
+                ", homePhone='" + homePhone + '\'' +
+                ", email='" + email + '\'' +
+                ", group='" + group + '\'' +
+                ", email2='" + email2 + '\'' +
+                ", email3='" + email3 + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", allEmails='" + allEmails + '\'' +
+                '}';
+    }
+
+    private String fullName;
 
     public String getAllEmails() {
         return allEmails;
@@ -92,17 +117,6 @@ public class ContactData {
 
     public int getId() {
         return id;
-    }
-
-    @Override
-    public String toString() {
-        return "ContactData{" +
-                "id=" + id +
-                ", lastname='" + lastname + '\'' +
-                ", company='" + company + '\'' +
-                ", group='" + group + '\'' +
-                ", firstname='" + firstname + '\'' +
-                '}';
     }
 
     public ContactData withId(int id) {
@@ -210,6 +224,15 @@ public class ContactData {
 
     public String getEmail3() {
         return email3;
+    }
+
+    public ContactData withFullInfo(String fullinfo) {
+        this.fullInfo = fullinfo;
+        return this;
+    }
+
+    public String getFullInfo() {
+        return fullInfo;
     }
 }
 
