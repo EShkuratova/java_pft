@@ -67,7 +67,9 @@ public class ContactHelper extends HelperBase {
     }
 
     public void initContactModificationByButton(ContactData contact) {
-        wd.findElement(By.xpath("//input[@value='" + contact.getId() + "']//..//..//a[contains(@href,'edit')]")).click();
+       // wd.findElement(By.cssSelector(String.format("a[href='edit.php?id=%s']",contact.getId()))).click();
+       wd.findElement(By.xpath("//input[@value='" + contact.getId() + "']//..//..//a[contains(@href,'edit')]")).click();
+
     }
 
     public void submitContactModification() {
@@ -80,11 +82,13 @@ public class ContactHelper extends HelperBase {
 
 
     public void getContactDetails(int i) {
+
         click(By.xpath("//table[@id='maintable']/tbody/tr[" + i + "]/td[7]/a/img"));
     }
 
     public void details(ContactData contact) {
-        wd.findElement(By.xpath("//input[@value='" + contact.getId() + "']//..//..//a[contains(@href,'details')]")).click();
+        wd.findElement(By.cssSelector(String.format("a[href='view.php?id=%s']",contact.getId()))).click();
+        //wd.findElement(By.xpath("//input[@value='" + contact.getId() + "']//..//..//a[contains(@href,'details')]")).click();
     }
 
     public void checkAllRows() {
@@ -136,7 +140,24 @@ public class ContactHelper extends HelperBase {
         contactCache = null;
     }
 
+     public ContactData infoFromEditForm(ContactData contact){
 
+         initContactModificationByButton(contact);
+         String workPhone = wd.findElement(By.name("work")).getAttribute("value");
+         String mobilePhone = wd.findElement(By.name("mobile")).getAttribute("value");
+         String homePhone = wd.findElement(By.name("home")).getAttribute("value");
+         String firstname = wd.findElement(By.name("firstname")).getAttribute("value");
+         String lastname = wd.findElement(By.name("lastname")).getAttribute("value");
+         String email = wd.findElement(By.name("email")).getAttribute("value");
+         String email2 = wd.findElement(By.name("email2")).getAttribute("value");
+         String email3 = wd.findElement(By.name("email3")).getAttribute("value");
+         String address = wd.findElement(By.name("address")).getText();
+
+         return
+                 new ContactData().withMobilePhone(mobilePhone).withWorkPhone(workPhone).withFirstname(firstname)
+                         .withLastname(lastname).withHomePhone(homePhone).withEmail(email).withEmail2(email2).withEmail3(email3).withAddress(address);
+
+     }
     public boolean isAnyContactExist() {
 
         return isElementPresent(By.name("selected[]"));
@@ -154,8 +175,13 @@ public class ContactHelper extends HelperBase {
             int id = Integer.parseInt(elem.findElement(By.tagName("input")).getAttribute("value"));
             String firstname = elem.findElement(By.xpath("./td[3]")).getText();
             String lastname = elem.findElement(By.xpath("./td[2]")).getText();
-            contactCache.add(new ContactData().withId(id).withFirstname(firstname).withLastname(lastname));
+            String allPhones = elem.findElement(By.xpath("./td[6]")).getText();
+            String allEmails = elem.findElement(By.xpath("./td[5]")).getText();
+            String address = elem.findElement(By.xpath("./td[4]")).getText();
+            //String [] phones = allPhones.split("\n");
 
+            //contactCache.add(new ContactData().withId(id).withFirstname(firstname).withLastname(lastname).withMobilePhone(phones[0]).withWorkPhone(phones[1]));
+            contactCache.add(new ContactData().withId(id).withFirstname(firstname).withLastname(lastname).withAllPhones(allPhones).withAllEmails(allEmails).withAddress(address));
         }
 
         return new Contacts(contactCache);
