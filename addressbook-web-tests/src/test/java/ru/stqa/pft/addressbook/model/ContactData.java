@@ -1,7 +1,9 @@
 package ru.stqa.pft.addressbook.model;
 
-import java.io.File;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+import java.io.File;
+@XStreamAlias("contact")
 public class ContactData {
     int id;
     private String allPhones;
