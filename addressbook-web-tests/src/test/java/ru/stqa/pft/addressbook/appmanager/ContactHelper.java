@@ -43,6 +43,7 @@ public class ContactHelper extends HelperBase {
         type(By.name("mobile"), contactData.getMobilePhone());
         type(By.name("work"), contactData.getWorkPhone());
         type(By.name("email"), contactData.getEmail());
+        attach(By.name("photo"),contactData.getPhoto());
         if (creation) new Select(wd.findElement(By.name("new_group"))).selectByVisibleText("test1");
         else
             Assert.assertFalse(isElementPresent(By.name("new_group")), "На форме редактирования доступен элемент для выбора группы!");
