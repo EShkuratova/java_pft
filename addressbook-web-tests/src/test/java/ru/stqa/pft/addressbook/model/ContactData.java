@@ -15,8 +15,10 @@ public class ContactData {
     private String nickname;
     private String company;
     private String address;
+    @Expose
     private String mobilePhone;
     private String workPhone;
+
     private String homePhone;
     @Expose
     private String email;
