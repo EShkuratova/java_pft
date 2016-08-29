@@ -50,15 +50,18 @@ public class ContactCreationTests extends TestBase {
 
     @Test(dataProvider ="validContactsFromJson")
     public void testCreateContact(ContactData contact) {
+
         app.goTo().homePage();
         Contacts before = app.contact().all();
         app.goTo().newContactPage();
         //File photo = new File("src/test/resources/StanWithoutHat2.jpg");
 
         app.contact().create(contact);
+
         assertThat(app.contact().count(), equalTo(before.size()+1));
         Contacts after = app.contact().all();
         assertThat(after, equalTo(before.withAdded(contact.withId(after.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
+
 
     }
 
