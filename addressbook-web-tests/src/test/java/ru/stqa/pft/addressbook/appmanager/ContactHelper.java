@@ -3,8 +3,6 @@ package ru.stqa.pft.addressbook.appmanager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
-import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 
@@ -45,9 +43,9 @@ public class ContactHelper extends HelperBase {
         type(By.name("work"), contactData.getWorkPhone());
         type(By.name("email"), contactData.getEmail());
         attach(By.name("photo"),contactData.getPhoto());
-        if (creation) new Select(wd.findElement(By.name("new_group"))).selectByVisibleText("test1");
+        /*if (creation) new Select(wd.findElement(By.name("new_group"))).selectByVisibleText("test1");
         else
-            Assert.assertFalse(isElementPresent(By.name("new_group")), "На форме редактирования доступен элемент для выбора группы!");
+            Assert.assertFalse(isElementPresent(By.name("new_group")), "На форме редактирования доступен элемент для выбора группы!");*/
 
     }
 
@@ -115,7 +113,7 @@ public class ContactHelper extends HelperBase {
     public void create(ContactData contactData) {
 
         fillContactInfo(contactData, true);
-        fillBirthday();
+        //fillBirthday();
         submitContactCreation();
         contactCache = null;
     }
