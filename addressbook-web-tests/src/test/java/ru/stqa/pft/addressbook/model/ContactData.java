@@ -2,34 +2,62 @@ package ru.stqa.pft.addressbook.model;
 
 import com.google.gson.annotations.Expose;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import org.hibernate.annotations.Type;
 
+import javax.persistence.*;
 import java.io.File;
 @XStreamAlias("contact")
+@Entity
+@Table(name = "addressbook")
 public class ContactData {
+    @Id
+            @Column(name = "id")
     int id;
+    @Transient
     private String allPhones;
     @Expose
+    @Column(name = "firstname")
     private String firstname;
     @Expose
+    @Column(name = "lastname")
     private String lastname;
+    @Transient
     private String nickname;
+    @Transient
     private String company;
+    @Transient
     private String address;
     @Expose
+    @Column(name = "mobile")
+    @Type(type = "text")
     private String mobilePhone;
+    @Column(name ="work")
+    @Type(type = "text")
     private String workPhone;
-
+    @Column(name = "home")
+    @Type(type = "text")
     private String homePhone;
-    @Expose
-    private String email;
+    @Transient
     private String group;
+    @Expose
+    @Column(name = "email")
+    @Type(type = "text")
+    private String email;
+    @Column(name = "email2")
+    @Type(type = "text")
     private String email2;
+    @Column(name = "email3")
+    @Type(type = "text")
     private String email3;
+    @Transient
     private String fullInfo;
 
+    @Column(name = "photo")
+    @Type(type = "text")
+    private String photo;
+    @Transient
+    private String allEmails;
 
-
-    private File photo;
 
     @Override
     public String toString() {
@@ -44,22 +72,22 @@ public class ContactData {
                 ", mobilePhone='" + mobilePhone + '\'' +
                 ", workPhone='" + workPhone + '\'' +
                 ", homePhone='" + homePhone + '\'' +
-                ", email='" + email + '\'' +
                 ", group='" + group + '\'' +
+                ", email='" + email + '\'' +
                 ", email2='" + email2 + '\'' +
                 ", email3='" + email3 + '\'' +
-                ", fullName='" + fullName + '\'' +
+                ", fullInfo='" + fullInfo + '\'' +
+                ", photo='" + photo + '\'' +
                 ", allEmails='" + allEmails + '\'' +
                 '}';
     }
 
-    private String fullName;
 
     public String getAllEmails() {
         return allEmails;
     }
 
-    private String allEmails;
+
 
 
     public ContactData withFirstname(String firstname) {
@@ -249,11 +277,11 @@ public class ContactData {
         return fullInfo;
     }
     public File getPhoto() {
-        return photo;
+        return new File(photo);
     }
 
     public ContactData withPhoto(File photo) {
-        this.photo = photo;
+        this.photo = photo.getPath();
         return this;
     }
 }
