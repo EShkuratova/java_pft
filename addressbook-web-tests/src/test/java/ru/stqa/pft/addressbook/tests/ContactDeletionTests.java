@@ -17,24 +17,26 @@ public class ContactDeletionTests extends TestBase {
 
     @BeforeTest
     public void makeSureContactExist() {
-        if (app.contact().all().isEmpty()) {
+        if(app.db().contacts().isEmpty())
+        {
             app.goTo().newContactPage();
             app.contact().create(new ContactData().withFirstname("user2").withLastname("user2").withNickname("user2")
-                    .withCompany("mts").withAddress("Санкт-Петербург, Учебный переулок").withMobilePhone("+79111111111").withWorkPhone("+79112222222").withEmail("user1@gmail.com").withGroup("test1"));
-
+                    .withCompany("mts").withAddress("Санкт-Петербург, Учебный переулок").withMobilePhone("+79111111111")
+                    .withEmail( "user1@gmail.com"));
+            app.goTo().homePage();
         }
-        app.goTo().homePage();
+
     }
 
     @Test
     public void testContactDeletion() {
 
         app.goTo().homePage();
-        Contacts before = app.contact().all();
+        Contacts before = app.db().contacts();
         ContactData deletedContact = before.iterator().next();
         app.contact().delete(deletedContact);
         assertThat(app.contact().count(), equalTo(before.size()-1));
-        Contacts after = app.contact().all();
+        Contacts after = app.db().contacts();
         assertThat(after,equalTo(before.without(deletedContact)));
 
 
@@ -47,7 +49,7 @@ public class ContactDeletionTests extends TestBase {
     public void testContactDeletionAll() {
         app.goTo().homePage();
         app.contact().deleteAll();
-        Contacts after = app.contact().all();
+        Contacts after = app.db().contacts();
         Assert.assertTrue(after.isEmpty());
     }
 

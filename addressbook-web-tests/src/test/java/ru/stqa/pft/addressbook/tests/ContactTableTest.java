@@ -4,6 +4,7 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -17,11 +18,11 @@ public class ContactTableTest extends TestBase {
 
     @BeforeTest
     public void makeSureContactExist() {
-        if (app.contact().all().isEmpty()) {
+        if (app.db().contacts().isEmpty()) {
             app.goTo().newContactPage();
             app.contact().create(new ContactData().withFirstname("user2").withLastname("user2")
                     .withAddress("Санкт-Петербург, Учебный переулок").withMobilePhone("+79111111111")
-                    .withWorkPhone("+79112222222").withHomePhone("+7911")
+                    .withWorkPhone("+79112222222").withHomePhone("+7911").withPhoto(new File("src/test/resources/StanWithoutHat2.jpg"))
                     .withEmail("user1@gmail.com").withEmail2("user1@yandex.ru"));
 
         }

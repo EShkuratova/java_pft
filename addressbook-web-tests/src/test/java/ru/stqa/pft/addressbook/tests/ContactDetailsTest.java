@@ -18,7 +18,7 @@ public class ContactDetailsTest extends TestBase {
 
     @BeforeTest
     public void makeSureContactExist() {
-        if (app.contact().all().isEmpty()) {
+        if (app.db().contacts().isEmpty()) {
             app.goTo().newContactPage();
             app.contact().create(new ContactData().withFirstname("user2").withLastname("user2")
                     .withAddress("Санкт-Петербург, Учебный переулок").withMobilePhone("+79111111111")
@@ -37,8 +37,6 @@ public class ContactDetailsTest extends TestBase {
         ContactData contactFromDetail = app.contact().infoFromDetailForm(contactFromTable);
         app.goTo().homePage();
         ContactData contactFromEdit = app.contact().infoFromEditForm(contactFromTable);
-        System.out.println(contactFromDetail);
-        System.out.println(contactFromEdit);
         assertThat(mergeAllInfo(contactFromEdit).replaceAll("\\s","").replaceAll("-()",""),
                 equalTo(contactFromDetail.getFullInfo().replaceAll("\\s","").replaceAll("-()","")));
     }
