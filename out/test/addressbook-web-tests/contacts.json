@@ -4,23 +4,5 @@
     "lastname": "test 0",
     "mobilePhone": "+7(911)111-11-11",
     "email": "test 0@gmail.com "
-  },
-  {
-    "firstname": "test 1",
-    "lastname": "test 1",
-    "mobilePhone": "+7(911)111-11-11",
-    "email": "test 1@gmail.com "
-  },
-  {
-    "firstname": "test 2",
-    "lastname": "test 2",
-    "mobilePhone": "+7(911)111-11-11",
-    "email": "test 2@gmail.com "
-  },
-  {
-    "firstname": "test 3",
-    "lastname": "test 3",
-    "mobilePhone": "+7(911)111-11-11",
-    "email": "test 3@gmail.com "
   }
 ]

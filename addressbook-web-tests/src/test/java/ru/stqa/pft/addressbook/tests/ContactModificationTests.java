@@ -35,11 +35,15 @@ public class ContactModificationTests extends TestBase {
         ContactData modifiedContact =before.iterator().next();
         ContactData contact = new ContactData().withId(modifiedContact.getId()).withFirstname("user2").withLastname("user2")
                 .withNickname("user2").withCompany("mts").withAddress("Санкт-Петербург, Учебный переулок").withEmail("update@gmail.com")
+                .withHomePhone(modifiedContact.getHomePhone()).withMobilePhone(modifiedContact.getMobilePhone())
+                .withWorkPhone(modifiedContact.getWorkPhone())
+                .withEmail2(modifiedContact.getEmail2()).withEmail3(modifiedContact.getEmail3())
                 .withPhoto(new File("src/test/resources/StanWithoutHat2.jpg"));
         app.contact().modify(contact);
         assertThat(app.contact().count(), equalTo(before.size()));
         Contacts after = app.db().contacts();
         assertThat(after, equalTo(before.without(modifiedContact).withAdded(contact)));
+        verifyContactListInUI();
         //before = app.contact().all();
         /*app.contact().details(contact);
         app.contact().modifyFromDetails(contact);

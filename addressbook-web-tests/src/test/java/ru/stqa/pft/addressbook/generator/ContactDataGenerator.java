@@ -102,7 +102,7 @@ public class ContactDataGenerator {
         for(int i=0;i<count;i++){
 
             contacts.add(new ContactData().withFirstname(String.format("test %s",i)).withMobilePhone("+7(911)111-11-11")
-                    .withLastname(String.format("test %s",i)).withEmail(String.format("test %s ",i + "@gmail.com")));
+                    .withLastname(String.format("test %s",i)).withHomePhone("+7(911)111-11-11").withEmail(String.format("test %s ",i + "@gmail.com")));
         }
         return contacts;
 
