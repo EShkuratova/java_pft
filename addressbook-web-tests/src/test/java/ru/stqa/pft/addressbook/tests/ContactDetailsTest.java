@@ -29,7 +29,7 @@ public class ContactDetailsTest extends TestBase {
         app.goTo().homePage();
     }
 
-    @Test
+    @Test(enabled = false)
 
     public void testContactName(){
 
