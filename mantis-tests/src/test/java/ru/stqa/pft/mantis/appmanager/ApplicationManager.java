@@ -24,8 +24,7 @@ public class ApplicationManager {
     private WebDriver wd;
     private String browser;
     private static final String CHROME_PATH = "C:\\Users\\EShkuratova\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe";
-
-
+    private RegistrationHelper registratinHelper;
 
 
     public ApplicationManager(String browser) {
@@ -40,19 +39,7 @@ public class ApplicationManager {
         String target = System.getProperty("target", "local");
         properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));
 
-        if (Objects.equals(browser, BrowserType.FIREFOX)) {
-            wd = new FirefoxDriver();
-        } else if (Objects.equals(browser, BrowserType.CHROME)) {
-            ChromeOptions options = new ChromeOptions();
-            options.setBinary(CHROME_PATH);
-            wd = new ChromeDriver(options);
-        } else if (Objects.equals(browser, BrowserType.IE)) {
-            wd = new InternetExplorerDriver();
-        }
 
-        wd.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-
-        wd.get(properties.getProperty("web.baseUrl"));
          // sessionHelper.login(properties.getProperty("web.adminLogin"), properties.getProperty("web.adminPass"));
 
     }
@@ -60,7 +47,9 @@ public class ApplicationManager {
     @AfterMethod
 
     public void stop() {
-        wd.quit();
+        if(wd != null){
+            wd.quit();
+        }
     }
 
     public HttpSession newSession(){
@@ -72,4 +61,30 @@ public class ApplicationManager {
     }
 
 
+    public RegistrationHelper registration() {
+        if(registratinHelper == null){
+            registratinHelper =  new RegistrationHelper(this);
+        }
+        return registratinHelper;
+    }
+
+    public WebDriver getDriver() {
+        if(wd == null){
+            if (Objects.equals(browser, BrowserType.FIREFOX)) {
+                wd = new FirefoxDriver();
+            } else if (Objects.equals(browser, BrowserType.CHROME)) {
+                ChromeOptions options = new ChromeOptions();
+                options.setBinary(CHROME_PATH);
+                wd = new ChromeDriver(options);
+            } else if (Objects.equals(browser, BrowserType.IE)) {
+                wd = new InternetExplorerDriver();
+            }
+
+            wd.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+
+            wd.get(properties.getProperty("web.baseUrl"));
+
+        }
+        return wd;
+    }
 }
