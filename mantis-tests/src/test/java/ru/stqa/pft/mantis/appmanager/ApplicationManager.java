@@ -26,6 +26,12 @@ public class ApplicationManager {
     private static final String CHROME_PATH = "C:\\Users\\EShkuratova\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe";
     private RegistrationHelper registratinHelper;
     private FTPHelper ftp;
+    private MailHelper mailHelper;
+    private DbHelper dbHelper;
+    private NavigationHelper navigationHelper;
+    private AdminHelper adminHelper;
+    private SessionHelper sessionHelper;
+    private UserHelper userHelper;
 
 
     public ApplicationManager(String browser) {
@@ -75,6 +81,38 @@ public class ApplicationManager {
         }
         return ftp;
     }
+    public UserHelper user(){
+        if(userHelper == null){
+            userHelper = new UserHelper(this);
+        }
+        return userHelper;
+    }
+    
+    public MailHelper mail(){
+        if(mailHelper == null){
+            mailHelper = new MailHelper(this);
+        }
+        return mailHelper;
+    }
+
+    public DbHelper db() {
+        dbHelper = new DbHelper();
+        return  dbHelper;
+    }
+
+    public NavigationHelper goTo() {
+        navigationHelper = new NavigationHelper(this);
+        return navigationHelper;
+    }
+
+    public AdminHelper admin() {
+        adminHelper = new AdminHelper(this);
+        return adminHelper;
+    }
+    public SessionHelper session() {
+        sessionHelper = new SessionHelper(this.getDriver());
+        return sessionHelper;
+    }
 
     public WebDriver getDriver() {
         if(wd == null){
@@ -94,5 +132,8 @@ public class ApplicationManager {
 
         }
         return wd;
+    }
+    public void timeout(int seconds) {
+        wd.manage().timeouts().implicitlyWait(seconds, TimeUnit.SECONDS);
     }
 }
