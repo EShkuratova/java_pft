@@ -25,6 +25,7 @@ public class ApplicationManager {
     private String browser;
     private static final String CHROME_PATH = "C:\\Users\\EShkuratova\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe";
     private RegistrationHelper registratinHelper;
+    private FTPHelper ftp;
 
 
     public ApplicationManager(String browser) {
@@ -66,6 +67,13 @@ public class ApplicationManager {
             registratinHelper =  new RegistrationHelper(this);
         }
         return registratinHelper;
+    }
+
+    public FTPHelper ftp(){
+        if(ftp == null){
+            ftp = new FTPHelper(this);
+        }
+        return ftp;
     }
 
     public WebDriver getDriver() {
