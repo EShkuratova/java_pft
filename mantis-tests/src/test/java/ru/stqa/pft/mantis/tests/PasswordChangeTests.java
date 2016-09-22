@@ -6,7 +6,10 @@ import org.testng.annotations.Test;
 import ru.stqa.pft.mantis.model.UserData;
 
 import javax.mail.MessagingException;
+import javax.xml.rpc.ServiceException;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.rmi.RemoteException;
 
 import static org.testng.AssertJUnit.assertTrue;
 
@@ -16,8 +19,9 @@ import static org.testng.AssertJUnit.assertTrue;
 public class PasswordChangeTests extends TestBase {
 
     @BeforeMethod
-    public void Precondition() {
-
+    public void Precondition() throws RemoteException, ServiceException, MalformedURLException {
+        app.mail().start();
+        skipIfNotFixed(0000001);
         if (app.db().users().size() <= 1) {
             app.mail().start();
             long now = System.currentTimeMillis();
@@ -28,7 +32,7 @@ public class PasswordChangeTests extends TestBase {
             app.mail().stop();
 
         }
-        app.mail().start();
+
     }
 
 
